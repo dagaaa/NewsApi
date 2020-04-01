@@ -1,10 +1,25 @@
 package news;
 
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 import org.json.JSONObject;
 
 import java.io.IOException;
 
-public interface NewsAPI {
+public abstract class NewsAPI {
 
-     JSONObject getArticleInformation() throws IOException;
+    protected JSONObject getArticleInformation(String url) throws IOException {
+
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+
+        Response response = client.newCall(request).execute();
+        return new JSONObject(response.body().string());
+
+    }
 }
